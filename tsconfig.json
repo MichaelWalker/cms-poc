@@ -17,6 +17,14 @@
         "noUncheckedIndexedAccess": true,
         "baseUrl": "."
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.cjs",
+        "**/*.mjs",
+        "graph-cms/scripts/init-database.j]s",
+        "graph-cms/scripts/init-database.js"
+    ],
     "exclude": ["node_modules"]
 }
