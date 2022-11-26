@@ -1,3 +1,4 @@
-import { cms } from "src/cms/cms";
+import { createCmsPageHandler } from "graph-cms/client";
+import { cmsConfig } from "src/cms";
 
-export default cms.pages;
+export default createCmsPageHandler(cmsConfig);

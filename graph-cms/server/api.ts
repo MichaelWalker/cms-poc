@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { procedure, router } from "./trpc";
+import { z } from "zod";
 
-export async function apiHandler(
-    request: NextApiRequest,
-    response: NextApiResponse
-): Promise<void> {
-    response.json({ message: "hello world" });
-}
+export const appRouter = router({
+    hello: procedure.input(z.object({ name: z.string() })).query(({ input }) => `hello ${input.name}`),
+});
+
+export type AppRouter = typeof appRouter;
