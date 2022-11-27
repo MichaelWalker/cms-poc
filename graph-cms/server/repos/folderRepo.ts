@@ -52,3 +52,16 @@ export async function getPagesInFolder(id: string) {
         );
     });
 }
+
+export async function getTemplatesInFolder(id: string) {
+    return await read((tx) => {
+        return tx.run(
+            `
+            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(child:Template)
+            WHERE parent.id = $id
+            RETURN child
+        `,
+            { id }
+        );
+    });
+}
