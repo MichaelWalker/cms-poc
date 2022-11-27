@@ -1,8 +1,14 @@
 import { procedure, router } from "./trpc";
 import { z } from "zod";
+import { getFoldersInFolderRequest } from "graph-cms/shared/validations/folderValidation";
+import { getFoldersInFolder } from "./services/folders";
+
+const foldersRouter = router({
+    getFoldersInFolder: procedure.input(getFoldersInFolderRequest).query(({ input }) => getFoldersInFolder(input)),
+});
 
 export const appRouter = router({
-    hello: procedure.input(z.object({ name: z.string() })).query(({ input }) => `hello ${input.name}`),
+    folders: foldersRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FC } from "react";
+import { FolderContents } from "../components/folder-contents/FolderContents";
 
 type FolderPageProps = {
     folderId: string;
@@ -8,9 +9,7 @@ type FolderPageProps = {
 export const FolderPage: FC<FolderPageProps> = ({ folderId }) => {
     return (
         <div>
-            Folder Page: {folderId}
-            <Link href="/cms">Home</Link>
-            <Link href="/cms/pages/foo">Page</Link>
+            <FolderContents folderId={folderId} />
         </div>
     );
 };

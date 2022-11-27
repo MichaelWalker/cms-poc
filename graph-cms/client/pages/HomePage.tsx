@@ -1,15 +1,12 @@
-import Link from "next/link";
+import { HOME_FOLDER_ID } from "graph-cms/shared/constants";
 import { FC } from "react";
+import { AdminLayout } from "../components/admin-layout/AdminLayout";
+import { FolderContents } from "../components/folder-contents/FolderContents";
 
 export const HomePage: FC = () => {
     return (
-        <div>
-            <Link className="block" href="/cms/folders/foo">
-                Folder
-            </Link>
-            <Link className="block" href="/cms/pages/foo">
-                Page
-            </Link>
-        </div>
+        <AdminLayout title="Dashboard">
+            <FolderContents folderId={HOME_FOLDER_ID} />
+        </AdminLayout>
     );
 };
