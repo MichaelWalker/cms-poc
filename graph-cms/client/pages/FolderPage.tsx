@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FC } from "react";
+import { AdminLayout } from "../components/admin-layout/AdminLayout";
 import { FolderContents } from "../components/folder-contents/FolderContents";
 
 type FolderPageProps = {
@@ -8,8 +9,8 @@ type FolderPageProps = {
 
 export const FolderPage: FC<FolderPageProps> = ({ folderId }) => {
     return (
-        <div>
+        <AdminLayout title="Folder">
             <FolderContents folderId={folderId} />
-        </div>
+        </AdminLayout>
     );
 };

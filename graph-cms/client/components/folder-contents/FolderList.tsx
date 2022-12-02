@@ -15,7 +15,7 @@ type FolderProps = {
 
 const Folder: FC<FolderProps> = ({ id, name }) => {
     return (
-        <a href={`/cms/folders/${id}`}>
+        <a href={`/cms/folders/${id}`} className="block rounded-xl bg-white px-8 py-4 shadow">
             <span>{name}</span>
         </a>
     );
@@ -29,12 +29,16 @@ export const FolderList: FC<FolderListProps> = ({ parentFolderId }) => {
             <SectionHeader>Folders</SectionHeader>
             <Loadable query={foldersQuery}>
                 {(data) => (
-                    <ol>
-                        {data.map((folder) => (
-                            <Folder id={folder.id} name={folder.name} />
-                        ))}
+                    <>
+                        <ol className="spa mb-8 grid grid-cols-4 gap-8">
+                            {data.map((folder) => (
+                                <li key={folder.id}>
+                                    <Folder id={folder.id} name={folder.name} />
+                                </li>
+                            ))}
+                        </ol>
                         <CreateFolderModal parentFolderId={parentFolderId} />
-                    </ol>
+                    </>
                 )}
             </Loadable>
         </section>

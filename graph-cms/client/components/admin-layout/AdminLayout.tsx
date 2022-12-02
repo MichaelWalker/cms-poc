@@ -21,21 +21,9 @@ export const AdminLayout: FC<AdminLayoutProps> = ({ title, children }) => {
                     <h1 className="font- absolute top-12 left-8 text-5xl font-medium tracking-wider text-white">
                         {title}
                     </h1>
-                    <div className="m-8 -mt-8">{children}</div>
+                    <div className="m-8 mt-0">{children}</div>
                 </Main>
             </div>
         </div>
     );
-
-    // return (
-    //     <div className="flex flex-row items-stretch">
-    //         <nav className="m-2 rounded-xl bg-slate-100 p-8"></nav>
-    //         <Main>
-    //             <div className="m-auto max-w-screen-2xl px-8 py-16">
-    //                 <h1 className="mb-16 text-5xl text-slate-100">{title}</h1>
-    //                 {children}
-    //             </div>
-    //         </Main>
-    //     </div>
-    // );
 };
