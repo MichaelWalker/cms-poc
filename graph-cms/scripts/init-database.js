@@ -1,6 +1,5 @@
 const neo4j = require("neo4j-driver");
 const { exit } = require("process");
-const { HOME_FOLDER_ID } = require("../shared/constants");
 
 async function init() {
     const driver = neo4j.driver("neo4j://localhost:7687", neo4j.auth.basic("neo4j", "secret"));
@@ -29,7 +28,7 @@ async function init() {
             `
             CREATE ( folder:Folder { id: $id, name: $name, parentId: $parentId } )
         `,
-            { id: HOME_FOLDER_ID, name: "Home", parentId: null }
+            { id: "00000000-0000-0000-0000-000000000000", name: "Home", parentId: null }
         );
     });
 

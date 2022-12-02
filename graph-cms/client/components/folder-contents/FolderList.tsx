@@ -1,5 +1,6 @@
 import { trpc } from "graph-cms/client/trpc";
 import { FC } from "react";
+import { CreateFolderModal } from "../create-folder-modal/CreateFolderModal";
 import { SectionHeader } from "../headers/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
 
@@ -32,6 +33,7 @@ export const FolderList: FC<FolderListProps> = ({ parentFolderId }) => {
                         {data.map((folder) => (
                             <Folder id={folder.id} name={folder.name} />
                         ))}
+                        <CreateFolderModal parentFolderId={parentFolderId} />
                     </ol>
                 )}
             </Loadable>
