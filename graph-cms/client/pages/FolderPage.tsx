@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { FC } from "react";
 import { AdminLayout } from "../components/admin-layout/AdminLayout";
 import { FolderContents } from "../components/folder-contents/FolderContents";

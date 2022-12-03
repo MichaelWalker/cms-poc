@@ -2,6 +2,7 @@ import { trpc } from "graph-cms/client/trpc";
 import { FC } from "react";
 import { CreateFolderModal } from "../create-folder-modal/CreateFolderModal";
 import { SectionHeader } from "../headers/SectionHeader";
+import { KeyboardFocusable } from "../keyboard-focusable/KeyboardFocusable";
 import { Loadable } from "../loadable/Loadable";
 
 type FolderListProps = {
@@ -15,9 +16,11 @@ type FolderProps = {
 
 const Folder: FC<FolderProps> = ({ id, name }) => {
     return (
-        <a href={`/cms/folders/${id}`} className="block rounded-xl bg-white px-8 py-4 shadow">
-            <span>{name}</span>
-        </a>
+        <KeyboardFocusable>
+            <a href={`/cms/folders/${id}`} className="block rounded-xl border-none bg-white px-8 py-4 shadow">
+                <span>{name}</span>
+            </a>
+        </KeyboardFocusable>
     );
 };
 
@@ -30,7 +33,7 @@ export const FolderList: FC<FolderListProps> = ({ parentFolderId }) => {
             <Loadable query={foldersQuery}>
                 {(data) => (
                     <>
-                        <ol className="spa mb-8 grid grid-cols-4 gap-8">
+                        <ol className="spa mb-4 grid grid-cols-4 gap-4">
                             {data.map((folder) => (
                                 <li key={folder.id}>
                                     <Folder id={folder.id} name={folder.name} />

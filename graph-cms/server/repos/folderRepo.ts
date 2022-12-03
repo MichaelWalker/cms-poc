@@ -34,6 +34,7 @@ export async function getFoldersInFolder(id: string) {
             MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(child:Folder)
             WHERE parent.id = $id
             RETURN child
+            ORDER BY child.name
         `,
             { id }
         );

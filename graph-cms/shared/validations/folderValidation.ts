@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createFolderRequest = z.object({
-    name: z.string(),
+    name: z.string().trim().min(1),
     parentId: z.string().uuid(),
 });
 
