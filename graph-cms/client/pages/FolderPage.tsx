@@ -8,7 +8,7 @@ type FolderPageProps = {
 
 export const FolderPage: FC<FolderPageProps> = ({ folderId }) => {
     return (
-        <AdminLayout title="Folder">
+        <AdminLayout title="Folder" folderId={folderId}>
             <FolderContents folderId={folderId} />
         </AdminLayout>
     );

@@ -1,7 +1,12 @@
 import { randomUUID } from "crypto";
 import { Folder } from "graph-cms/shared/domainTypes";
-import { CreateFolderRequest, FindInFolderRequest } from "graph-cms/shared/validations";
+import { CreateFolderRequest, FindInFolderRequest, GetBreadcrumbsRequest } from "graph-cms/shared/validations";
 import { read, write } from "./neo4j-helpers";
+
+type Breadcrumb = {
+    id: string;
+    name: string;
+};
 
 export async function create({ name, parentId }: CreateFolderRequest) {
     await write((tx) => {
@@ -16,17 +21,19 @@ export async function create({ name, parentId }: CreateFolderRequest) {
     });
 }
 
-export async function getFolderAndAllAncestors(id: string) {
-    return await read((tx) => {
+export async function getBreadcrumbs({ folderId }: GetBreadcrumbsRequest): Promise<Breadcrumb[]> {
+    const response = await read((tx) => {
         return tx.run(
             `
-            MATCH (ancestor:Folder)-[:CONAINS_FOLDER*..]->(folder:Folder)
-            WHERE folder.id = $id 
-            RETURN folder, relation, ancestor
+            MATCH (ancestor:Folder)-[:CONTAINS_FOLDER*..]->(folder:Folder)
+            WHERE folder.id = $folderId 
+            RETURN ancestor
         `,
-            { id }
+            { folderId }
         );
     });
+
+    return response.records.map((record) => record.get("ancestor").properties).reverse();
 }
 
 export async function findInFolder({ folderId }: FindInFolderRequest): Promise<Folder[]> {

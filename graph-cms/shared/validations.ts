@@ -20,7 +20,12 @@ export const findInFolderRequest = z.object({
     folderId: z.string().uuid(),
 });
 
+export const getBreadcrumbsRequest = z.object({
+    folderId: z.string().uuid(),
+});
+
 export type CreateFolderRequest = z.infer<typeof createFolderRequest>;
 export type CreatePageRequest = z.infer<typeof createPageRequest>;
 export type CreateTemplateRequest = z.infer<typeof createTemplateRequest>;
 export type FindInFolderRequest = z.infer<typeof findInFolderRequest>;
+export type GetBreadcrumbsRequest = z.infer<typeof getBreadcrumbsRequest>;

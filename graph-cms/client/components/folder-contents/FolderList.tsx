@@ -34,13 +34,15 @@ export const FolderList: FC<FolderListProps> = ({ parentFolderId }) => {
             <Loadable query={foldersQuery}>
                 {(data) => (
                     <>
-                        <ol className="spa mb-4 grid grid-cols-4 gap-4">
-                            {data.map((folder) => (
-                                <li key={folder.id}>
-                                    <Folder id={folder.id} name={folder.name} />
-                                </li>
-                            ))}
-                        </ol>
+                        {data.length > 0 ? (
+                            <ol className="spa mb-4 grid grid-cols-4 gap-4">
+                                {data.map((folder) => (
+                                    <li key={folder.id}>
+                                        <Folder id={folder.id} name={folder.name} />
+                                    </li>
+                                ))}
+                            </ol>
+                        ) : null}
                         <CreateFolderModal parentFolderId={parentFolderId} />
                     </>
                 )}

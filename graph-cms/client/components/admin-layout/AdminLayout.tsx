@@ -1,12 +1,14 @@
 import { FC, ReactNode } from "react";
+import { Breadcrumbs } from "../breadcrumbs/Breadcrumbs";
 import { Main } from "../main/Main";
 
 type AdminLayoutProps = {
     title: string;
+    folderId?: string;
     children: ReactNode;
 };
 
-export const AdminLayout: FC<AdminLayoutProps> = ({ title, children }) => {
+export const AdminLayout: FC<AdminLayoutProps> = ({ title, folderId, children }) => {
     return (
         <div className="m-auto flex max-w-screen-xl bg-white px-8 font-['Poppins']">
             <nav className="mr-8 h-96 w-14 self-center rounded-3xl bg-stone-100"></nav>
@@ -18,9 +20,10 @@ export const AdminLayout: FC<AdminLayoutProps> = ({ title, children }) => {
                 <Main className="relative overflow-hidden rounded-3xl bg-stone-100">
                     <img src="/mountains.jpg" className="h-64 w-full object-cover object-[0%_15%]" />
                     <div className="absolute top-0 h-64 w-full bg-gradient-to-b from-transparent via-transparent to-slate-100" />
-                    <h1 className="font- absolute top-12 left-8 text-5xl font-medium tracking-wider text-white">
-                        {title}
-                    </h1>
+                    <div className="absolute top-12 left-8">
+                        <h1 className=" text-5xl font-medium tracking-wider text-white">{title}</h1>
+                        {folderId ? <Breadcrumbs folderId={folderId} /> : null}
+                    </div>
                     <div className="m-8 mt-0">{children}</div>
                 </Main>
             </div>

@@ -4,6 +4,7 @@ import {
     createPageRequest,
     createTemplateRequest,
     findInFolderRequest,
+    getBreadcrumbsRequest,
 } from "graph-cms/shared/validations";
 import * as folderRepo from "./repos/folderRepo";
 import * as pageRepo from "./repos/pageRepo";
@@ -11,6 +12,7 @@ import * as templateRepo from "./repos/templateRepo";
 
 const foldersRouter = router({
     findInFolder: procedure.input(findInFolderRequest).query(({ input }) => folderRepo.findInFolder(input)),
+    getBreadcrumbs: procedure.input(getBreadcrumbsRequest).query(({ input }) => folderRepo.getBreadcrumbs(input)),
     create: procedure.input(createFolderRequest).mutation(({ input }) => folderRepo.create(input)),
 });
 
