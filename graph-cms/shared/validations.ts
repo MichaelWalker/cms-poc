@@ -7,7 +7,7 @@ export const createFolderRequest = z.object({
 
 export const createPageRequest = z.object({
     name: z.string().trim().min(1),
-    url: z.string().url(),
+    url: z.string().trim().min(1),
     folderId: z.string().uuid(),
 });
 

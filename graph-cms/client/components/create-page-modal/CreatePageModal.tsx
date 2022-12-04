@@ -2,25 +2,26 @@ import { FC, useState } from "react";
 import { SecondaryButton } from "../buttons/SecondaryButton";
 import { PrimaryButton } from "../buttons/PrimaryButton";
 import { trpc } from "graph-cms/client/trpc";
-import { createFolderRequest } from "graph-cms/shared/validations";
+import { createFolderRequest, createPageRequest } from "graph-cms/shared/validations";
 import { Modal } from "../modal/Modal";
 
-type CreateFolderModalProps = {
+type CreatePageModalProps = {
     parentFolderId: string;
 };
 
-export const CreateFolderModal: FC<CreateFolderModalProps> = ({ parentFolderId }) => {
-    const createFolderMutation = trpc.folders.create.useMutation();
+export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) => {
+    const createPageMutation = trpc.pages.create.useMutation();
     const trpcContext = trpc.useContext();
 
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
+    const [url, setUrl] = useState("");
 
     async function handleSubmit() {
-        const request = createFolderRequest.parse({ name, parentId: parentFolderId });
-        await createFolderMutation.mutateAsync(request, {
+        const request = createPageRequest.parse({ name, url, folderId: parentFolderId });
+        await createPageMutation.mutateAsync(request, {
             onSuccess: () => {
-                trpcContext.folders.findInFolder.invalidate({ folderId: parentFolderId });
+                trpcContext.pages.findInFolder.invalidate({ folderId: parentFolderId });
             },
         });
 
@@ -31,8 +32,8 @@ export const CreateFolderModal: FC<CreateFolderModalProps> = ({ parentFolderId }
         <Modal
             open={open}
             setOpen={setOpen}
-            trigger={<SecondaryButton>+ create folder</SecondaryButton>}
-            title="Create Folder"
+            trigger={<SecondaryButton>+ create page</SecondaryButton>}
+            title="Create Page"
         >
             <form onSubmit={handleSubmit}>
                 <label className="mb-8 block">
@@ -41,6 +42,15 @@ export const CreateFolderModal: FC<CreateFolderModalProps> = ({ parentFolderId }
                         className="block w-full rounded-xl border border-black px-8 py-4 outline-none"
                         value={name}
                         onChange={(event) => setName(event.currentTarget.value)}
+                    />
+                </label>
+
+                <label className="mb-8 block">
+                    Url
+                    <input
+                        className="block w-full rounded-xl border border-black px-8 py-4 outline-none"
+                        value={url}
+                        onChange={(event) => setUrl(event.currentTarget.value)}
                     />
                 </label>
 
