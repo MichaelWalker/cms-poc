@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { Loading } from "../loading/Loading";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
+import { CmsLink } from "../typography/CmsLink";
 
 type BreadcrumbsProps = {
     folderId: string;
@@ -31,14 +32,9 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ folderId }) => {
                 <div>
                     {query.data.map(({ id, name }, index) => (
                         <span key={id}>
-                            <FocusRing focusRingClass="ring-1 ring-white">
-                                <Link
-                                    href={getPath(id)}
-                                    className="-mx-2 rounded px-2 py-1 font-medium text-white outline-none hover:underline"
-                                >
-                                    {name}
-                                </Link>
-                            </FocusRing>
+                            <CmsLink href={getPath(id)} color="white">
+                                {name}
+                            </CmsLink>
                             {index !== query.data.length - 1 ? (
                                 <ChevronRightIcon className="mx-2 inline-block stroke-white" />
                             ) : null}

@@ -1,12 +1,11 @@
-import { FocusRing } from "@react-aria/focus";
 import { trpc } from "graph-cms/client/trpc";
-import Link from "next/link";
 import { FC } from "react";
 import { CreateTemplateModal } from "../create-template-modal/CreateTemplateModal";
 import { SectionHeader } from "../headers/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
 import { Table } from "../table/Table";
 import { TableCell } from "../table/TableCell";
+import { CmsLink } from "../typography/CmsLink";
 
 type TemplateListProps = {
     folderId: string;
@@ -21,14 +20,7 @@ const Template: FC<TemplateProps> = ({ id, name }) => {
     return (
         <>
             <TableCell>
-                <FocusRing focusRingClass="ring-1 ring-black">
-                    <Link
-                        href={`/cms/pages/${id}`}
-                        className="-mx-2 rounded px-2 py-1 font-medium outline-none hover:underline"
-                    >
-                        {name}
-                    </Link>
-                </FocusRing>
+                <CmsLink href={`/cms/pages/${id}`}>{name}</CmsLink>
             </TableCell>
             <TableCell>Block</TableCell>
             <TableCell>Just Now</TableCell>
