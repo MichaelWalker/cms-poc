@@ -9,9 +9,10 @@
         "start": "next start",
         "prettier:check": "prettier --check .",
         "prettier:write": "prettier --write .",
-        "db:create": "docker run --name cms-poc-neo4j -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/secret -d neo4j",
-        "db:init": "node ./graph-cms/scripts/init-database.js",
-        "db:start": "docker start cms-poc-neo4j"
+        "db:create": "docker run --name cms-poc-neo4j -p7474:7474 -p7687:7687 -e NEO4J_AUTH=neo4j/secret --volume=C:/Hobby/cms-poc/.neo4j/data:/data -d neo4j",
+        "db:start": "docker start cms-poc-neo4j",
+        "db:stop": "docker stop cms-poc-neo4j",
+        "db:init": "node ./.neo4j/init-database.js"
     },
     "dependencies": {
         "@radix-ui/react-dialog": "^1.0.2",

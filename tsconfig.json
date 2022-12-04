@@ -24,7 +24,7 @@
         "**/*.cjs",
         "**/*.mjs",
         "graph-cms/scripts/init-database.j]s",
-        "graph-cms/scripts/init-database.js"
+        ".neo4j/init-database.js"
     ],
     "exclude": ["node_modules"]
 }
