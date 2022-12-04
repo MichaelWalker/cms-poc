@@ -11,7 +11,7 @@ export const FolderContents: FC<FolderContentsProps> = ({ folderId }) => {
     return (
         <>
             <FolderList parentFolderId={folderId} />
-            <PageList parentFolderId={folderId} />
+            <PageList folderId={folderId} />
             <TemplateList folderId={folderId} />
         </>
     );

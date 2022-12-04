@@ -5,9 +5,11 @@ import { FC } from "react";
 import { CreatePageModal } from "../create-page-modal/CreatePageModal";
 import { SectionHeader } from "../headers/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
+import { Table } from "../table/Table";
+import { TableCell } from "../table/TableCell";
 
 type PageListProps = {
-    parentFolderId: string;
+    folderId: string;
 };
 
 type PageProps = {
@@ -18,8 +20,8 @@ type PageProps = {
 
 const Page: FC<PageProps> = ({ id, name, url }) => {
     return (
-        <tr className="border-b border-stone-200 last:border-none">
-            <td className="py-4 pl-8">
+        <>
+            <TableCell>
                 <FocusRing focusRingClass="ring-1 ring-black">
                     <Link
                         href={`/cms/pages/${id}`}
@@ -28,17 +30,17 @@ const Page: FC<PageProps> = ({ id, name, url }) => {
                         {name}
                     </Link>
                 </FocusRing>
-            </td>
-            <td className="py-4 pl-8">{url}</td>
-            <td className="py-4 pl-8">-</td>
-            <td className="py-4 pl-8">English</td>
-            <td className="py-4 pl-8 pr-8">Just Now</td>
-        </tr>
+            </TableCell>
+            <TableCell>{url}</TableCell>
+            <TableCell>-</TableCell>
+            <TableCell>English</TableCell>
+            <TableCell>Just Now</TableCell>
+        </>
     );
 };
 
-export const PageList: FC<PageListProps> = ({ parentFolderId }) => {
-    const pagesQuery = trpc.pages.findInFolder.useQuery({ folderId: parentFolderId });
+export const PageList: FC<PageListProps> = ({ folderId }) => {
+    const pagesQuery = trpc.pages.findInFolder.useQuery({ folderId });
 
     return (
         <section className="mb-12">
@@ -47,36 +49,13 @@ export const PageList: FC<PageListProps> = ({ parentFolderId }) => {
                 {(data) => (
                     <>
                         {data.length > 0 ? (
-                            <div className="rounded-xl bg-white">
-                                <table className="mb-4 w-full rounded-xl text-left">
-                                    <thead className="">
-                                        <tr>
-                                            <th className="text rounded-tl-xl bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Name
-                                            </th>
-                                            <th className="text bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Url
-                                            </th>
-                                            <th className="text bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Template
-                                            </th>
-                                            <th className="text bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Languages
-                                            </th>
-                                            <th className="text rounded-tr-xl bg-slate-200 py-4 pl-8 pr-8 text-sm font-light uppercase tracking-wider">
-                                                Last Updated
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {data.map(({ id, name, url }) => (
-                                            <Page key={id} id={id} name={name} url={url} />
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <Table
+                                headers={["Name", "Url", "Template", "Languages", "last Updated"]}
+                                items={data}
+                                renderItem={(item) => <Page {...item} />}
+                            />
                         ) : null}
-                        <CreatePageModal parentFolderId={parentFolderId} />
+                        <CreatePageModal folderId={folderId} />
                     </>
                 )}
             </Loadable>

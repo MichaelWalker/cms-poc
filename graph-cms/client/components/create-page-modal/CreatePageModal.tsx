@@ -6,10 +6,10 @@ import { createPageRequest } from "graph-cms/shared/validations";
 import { Modal } from "../modal/Modal";
 
 type CreatePageModalProps = {
-    parentFolderId: string;
+    folderId: string;
 };
 
-export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) => {
+export const CreatePageModal: FC<CreatePageModalProps> = ({ folderId }) => {
     const createPageMutation = trpc.pages.create.useMutation();
     const trpcContext = trpc.useContext();
 
@@ -18,10 +18,10 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) =>
     const [url, setUrl] = useState("");
 
     async function handleSubmit() {
-        const request = createPageRequest.parse({ name, url, folderId: parentFolderId });
+        const request = createPageRequest.parse({ name, url, folderId });
         await createPageMutation.mutateAsync(request, {
             onSuccess: () => {
-                trpcContext.pages.findInFolder.invalidate({ folderId: parentFolderId });
+                trpcContext.pages.findInFolder.invalidate({ folderId });
             },
         });
 

@@ -5,5 +5,5 @@ type SectionHeaderProps = {
 };
 
 export const SectionHeader: FC<SectionHeaderProps> = ({ children }) => {
-    return <h2 className="mb-6 text-xl text-black">{children}</h2>;
+    return <h2 className="mb-4 text-xl text-black">{children}</h2>;
 };

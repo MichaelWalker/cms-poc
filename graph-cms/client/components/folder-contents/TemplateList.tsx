@@ -5,6 +5,8 @@ import { FC } from "react";
 import { CreateTemplateModal } from "../create-template-modal/CreateTemplateModal";
 import { SectionHeader } from "../headers/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
+import { Table } from "../table/Table";
+import { TableCell } from "../table/TableCell";
 
 type TemplateListProps = {
     folderId: string;
@@ -17,8 +19,8 @@ type TemplateProps = {
 
 const Template: FC<TemplateProps> = ({ id, name }) => {
     return (
-        <tr className="border-b border-stone-200 last:border-none">
-            <td className="py-4 pl-8">
+        <>
+            <TableCell>
                 <FocusRing focusRingClass="ring-1 ring-black">
                     <Link
                         href={`/cms/pages/${id}`}
@@ -27,10 +29,10 @@ const Template: FC<TemplateProps> = ({ id, name }) => {
                         {name}
                     </Link>
                 </FocusRing>
-            </td>
-            <td className="py-4 pl-8">Block</td>
-            <td className="py-4 pl-8 pr-8">Just Now</td>
-        </tr>
+            </TableCell>
+            <TableCell>Block</TableCell>
+            <TableCell>Just Now</TableCell>
+        </>
     );
 };
 
@@ -44,28 +46,11 @@ export const TemplateList: FC<TemplateListProps> = ({ folderId }) => {
                 {(data) => (
                     <>
                         {data.length > 0 ? (
-                            <div className="rounded-xl bg-white">
-                                <table className="mb-4 w-full rounded-xl text-left">
-                                    <thead className="">
-                                        <tr>
-                                            <th className="text rounded-tl-xl bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Name
-                                            </th>
-                                            <th className="text bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider">
-                                                Block
-                                            </th>
-                                            <th className="text rounded-tr-xl bg-slate-200 py-4 pl-8 pr-8 text-sm font-light uppercase tracking-wider">
-                                                Last Updated
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {data.map(({ id, name }) => (
-                                            <Template key={id} id={id} name={name} />
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <Table
+                                headers={["Name", "Block", "Last Updated"]}
+                                items={data}
+                                renderItem={(item) => <Template {...item} />}
+                            />
                         ) : null}
                         <CreateTemplateModal folderId={folderId} />
                     </>
