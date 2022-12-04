@@ -1,8 +1,10 @@
 import { randomUUID } from "crypto";
+import { Folder } from "graph-cms/shared/domainTypes";
+import { CreateFolderRequest, FindInFolderRequest } from "graph-cms/shared/validations";
 import { read, write } from "./neo4j-helpers";
 
-export async function createFolder(name: string, parentId: string) {
-    return await write((tx) => {
+export async function create({ name, parentId }: CreateFolderRequest) {
+    await write((tx) => {
         tx.run(
             `
                 MATCH (parent:Folder) 
@@ -27,42 +29,18 @@ export async function getFolderAndAllAncestors(id: string) {
     });
 }
 
-export async function getFoldersInFolder(id: string) {
-    return await read((tx) => {
+export async function findInFolder({ folderId }: FindInFolderRequest): Promise<Folder[]> {
+    const response = await read((tx) => {
         return tx.run(
             `
-            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(child:Folder)
-            WHERE parent.id = $id
-            RETURN child
-            ORDER BY child.name
+            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(folder:Folder)
+            WHERE parent.id = $folderId
+            RETURN folder
+            ORDER BY folder.name
         `,
-            { id }
+            { folderId }
         );
     });
-}
 
-export async function getPagesInFolder(id: string) {
-    return await read((tx) => {
-        return tx.run(
-            `
-            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(child:Page)
-            WHERE parent.id = $id
-            RETURN child
-        `,
-            { id }
-        );
-    });
-}
-
-export async function getTemplatesInFolder(id: string) {
-    return await read((tx) => {
-        return tx.run(
-            `
-            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(child:Template)
-            WHERE parent.id = $id
-            RETURN child
-        `,
-            { id }
-        );
-    });
+    return response.records.map((record) => record.get("folder").properties);
 }

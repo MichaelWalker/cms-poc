@@ -26,7 +26,7 @@ const Folder: FC<FolderProps> = ({ id, name }) => {
 };
 
 export const FolderList: FC<FolderListProps> = ({ parentFolderId }) => {
-    const foldersQuery = trpc.folders.getFoldersInFolder.useQuery({ folderId: parentFolderId });
+    const foldersQuery = trpc.folders.findInFolder.useQuery({ folderId: parentFolderId });
 
     return (
         <section className="mb-12">

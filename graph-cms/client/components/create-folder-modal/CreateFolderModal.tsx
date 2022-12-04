@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { SecondaryButton } from "../buttons/SecondaryButton";
 import { PrimaryButton } from "../buttons/PrimaryButton";
 import { trpc } from "graph-cms/client/trpc";
-import { createFolderRequest } from "graph-cms/shared/validations/folderValidation";
+import { createFolderRequest } from "graph-cms/shared/validations";
 
 type CreateFolderModalProps = {
     parentFolderId: string;
@@ -20,7 +20,7 @@ export const CreateFolderModal: FC<CreateFolderModalProps> = ({ parentFolderId }
         const request = createFolderRequest.parse({ name, parentId: parentFolderId });
         await createFolderMutation.mutateAsync(request, {
             onSuccess: () => {
-                trpcContext.folders.getFoldersInFolder.invalidate({ folderId: parentFolderId });
+                trpcContext.folders.findInFolder.invalidate({ folderId: parentFolderId });
             },
         });
 

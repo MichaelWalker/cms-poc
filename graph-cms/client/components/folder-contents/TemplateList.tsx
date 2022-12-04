@@ -22,7 +22,7 @@ const Template: FC<TemplateProps> = ({ id, name }) => {
 };
 
 export const TemplateList: FC<TemplateListProps> = ({ parentFolderId }) => {
-    const templatesQuery = trpc.folders.getTemplateInFolder.useQuery({ folderId: parentFolderId });
+    const templatesQuery = trpc.templates.findInFolder.useQuery({ folderId: parentFolderId });
 
     return (
         <section className="mb-12">

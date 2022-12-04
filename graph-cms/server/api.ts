@@ -1,21 +1,33 @@
 import { procedure, router } from "./trpc";
 import {
     createFolderRequest,
-    getFoldersInFolderRequest,
-    getPagesInFolderRequest,
-    getTemplatesInFolderRequest,
-} from "graph-cms/shared/validations/folderValidation";
-import { getFoldersInFolder, getPagesInFolder, getTemplatesInFolder, createFolder } from "./services/folders";
+    createPageRequest,
+    createTemplateRequest,
+    findInFolderRequest,
+} from "graph-cms/shared/validations";
+import * as folderRepo from "./repos/folderRepo";
+import * as pageRepo from "./repos/pageRepo";
+import * as templateRepo from "./repos/templateRepo";
 
 const foldersRouter = router({
-    getFoldersInFolder: procedure.input(getFoldersInFolderRequest).query(({ input }) => getFoldersInFolder(input)),
-    getPagesInFolder: procedure.input(getPagesInFolderRequest).query(({ input }) => getPagesInFolder(input)),
-    getTemplateInFolder: procedure.input(getTemplatesInFolderRequest).query(({ input }) => getTemplatesInFolder(input)),
-    create: procedure.input(createFolderRequest).mutation(({ input }) => createFolder(input)),
+    findInFolder: procedure.input(findInFolderRequest).query(({ input }) => folderRepo.findInFolder(input)),
+    create: procedure.input(createFolderRequest).mutation(({ input }) => folderRepo.create(input)),
+});
+
+const pagesRouter = router({
+    findInFolder: procedure.input(findInFolderRequest).query(({ input }) => pageRepo.findInFolder(input)),
+    create: procedure.input(createPageRequest).mutation(({ input }) => pageRepo.create(input)),
+});
+
+const templatesRouter = router({
+    findInFolder: procedure.input(findInFolderRequest).query(({ input }) => templateRepo.findInFolder(input)),
+    create: procedure.input(createTemplateRequest).mutation(({ input }) => templateRepo.create(input)),
 });
 
 export const appRouter = router({
     folders: foldersRouter,
+    pages: pagesRouter,
+    templates: templatesRouter,
 });
 
 export type AppRouter = typeof appRouter;

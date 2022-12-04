@@ -1,4 +1,5 @@
 import { trpc } from "graph-cms/client/trpc";
+import Link from "next/link";
 import { FC } from "react";
 import { SectionHeader } from "../headers/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
@@ -15,15 +16,15 @@ type PageProps = {
 
 const Page: FC<PageProps> = ({ id, name, url }) => {
     return (
-        <a href={`/cms/pages/${id}`}>
+        <Link href={`/cms/pages/${id}`}>
             <span>{name}</span>
             <span>{url}</span>
-        </a>
+        </Link>
     );
 };
 
 export const PageList: FC<PageListProps> = ({ parentFolderId }) => {
-    const pagesQuery = trpc.folders.getPagesInFolder.useQuery({ folderId: parentFolderId });
+    const pagesQuery = trpc.pages.findInFolder.useQuery({ folderId: parentFolderId });
 
     return (
         <section className="mb-12">
