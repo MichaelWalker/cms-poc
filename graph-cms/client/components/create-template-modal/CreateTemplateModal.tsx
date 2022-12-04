@@ -2,26 +2,25 @@ import { FC, useState } from "react";
 import { SecondaryButton } from "../buttons/SecondaryButton";
 import { PrimaryButton } from "../buttons/PrimaryButton";
 import { trpc } from "graph-cms/client/trpc";
-import { createPageRequest } from "graph-cms/shared/validations";
+import { createTemplateRequest } from "graph-cms/shared/validations";
 import { Modal } from "../modal/Modal";
 
-type CreatePageModalProps = {
-    parentFolderId: string;
+type CreateTemplateModalProps = {
+    folderId: string;
 };
 
-export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) => {
-    const createPageMutation = trpc.pages.create.useMutation();
+export const CreateTemplateModal: FC<CreateTemplateModalProps> = ({ folderId }) => {
+    const createTemplateMutation = trpc.templates.create.useMutation();
     const trpcContext = trpc.useContext();
 
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    const [url, setUrl] = useState("");
 
     async function handleSubmit() {
-        const request = createPageRequest.parse({ name, url, folderId: parentFolderId });
-        await createPageMutation.mutateAsync(request, {
+        const request = createTemplateRequest.parse({ name, folderId });
+        await createTemplateMutation.mutateAsync(request, {
             onSuccess: () => {
-                trpcContext.pages.findInFolder.invalidate({ folderId: parentFolderId });
+                trpcContext.templates.findInFolder.invalidate({ folderId });
             },
         });
 
@@ -32,8 +31,8 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) =>
         <Modal
             open={open}
             setOpen={setOpen}
-            trigger={<SecondaryButton>+ create page</SecondaryButton>}
-            title="Create Page"
+            trigger={<SecondaryButton>+ create template</SecondaryButton>}
+            title="Create Template"
         >
             <form onSubmit={handleSubmit}>
                 <label className="mb-8 block">
@@ -42,15 +41,6 @@ export const CreatePageModal: FC<CreatePageModalProps> = ({ parentFolderId }) =>
                         className="block w-full rounded-xl border border-black px-8 py-4 outline-none"
                         value={name}
                         onChange={(event) => setName(event.currentTarget.value)}
-                    />
-                </label>
-
-                <label className="mb-8 block">
-                    Url
-                    <input
-                        className="block w-full rounded-xl border border-black px-8 py-4 outline-none"
-                        value={url}
-                        onChange={(event) => setUrl(event.currentTarget.value)}
                     />
                 </label>
 

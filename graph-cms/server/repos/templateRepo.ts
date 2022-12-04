@@ -7,7 +7,7 @@ export async function findInFolder({ folderId }: FindInFolderRequest): Promise<T
     const response = await read((tx) => {
         return tx.run(
             `
-            MATCH (parent:Folder)-[:CONTAINS_FOLDER]->(template:Template)
+            MATCH (parent:Folder)-[:CONTAINS_TEMPLATE]->(template:Template)
             WHERE parent.id = $folderId
             RETURN template
         `,
@@ -24,7 +24,7 @@ export async function create({ name, folderId }: CreateTemplateRequest) {
             `
             MATCH (folder:Folder)
             WHERE (folder.id = $folderId)
-            CREATE (page:Page { id: $id, name: $name, folderId: $folderId })<-[:CONTAINS_PAGE]-(folder)
+            CREATE (:Template { id: $id, name: $name, folderId: $folderId })<-[:CONTAINS_TEMPLATE]-(folder)
         `,
             { id: randomUUID(), name, folderId }
         );

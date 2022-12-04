@@ -29,8 +29,8 @@ const Page: FC<PageProps> = ({ id, name, url }) => {
                     </Link>
                 </FocusRing>
             </td>
-            <td className="py-4 pl-8">-</td>
             <td className="py-4 pl-8">{url}</td>
+            <td className="py-4 pl-8">-</td>
             <td className="py-4 pl-8">English</td>
             <td className="py-4 pl-8 pr-8">Just Now</td>
         </tr>
