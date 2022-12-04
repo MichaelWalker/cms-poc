@@ -1,4 +1,5 @@
 import { trpc } from "graph-cms/client/trpc";
+import Link from "next/link";
 import { FC } from "react";
 import { CreateFolderModal } from "../create-folder-modal/CreateFolderModal";
 import { SectionHeader } from "../headers/SectionHeader";
@@ -17,9 +18,9 @@ type FolderProps = {
 const Folder: FC<FolderProps> = ({ id, name }) => {
     return (
         <KeyboardFocusable>
-            <a href={`/cms/folders/${id}`} className="block rounded-xl border-none bg-white px-8 py-4 shadow">
+            <Link href={`/cms/folders/${id}`} className="block rounded-xl border-none bg-white px-8 py-4 shadow">
                 <span>{name}</span>
-            </a>
+            </Link>
         </KeyboardFocusable>
     );
 };

@@ -11,7 +11,7 @@ export function Loadable<TData, TError>({ query, children }: LoadableProps<TData
     switch (query.status) {
         case "loading":
             return (
-                <div className="h-60 rounded-lg border border-slate-700 bg-slate-800">
+                <div className="h-20 rounded-lg bg-white">
                     <Loading />
                 </div>
             );

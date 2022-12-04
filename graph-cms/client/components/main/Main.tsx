@@ -1,4 +1,3 @@
-import { trpc } from "graph-cms/client/trpc";
 import Head from "next/head";
 import { FC, ReactNode } from "react";
 
@@ -11,12 +10,13 @@ export const Main: FC<MainProps> = ({ className, children }) => {
     return (
         <>
             <Head>
-                <style>
-                    @import
-                    url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
-                </style>
+                <style
+                    dangerouslySetInnerHTML={{
+                        __html: `@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");`,
+                    }}
+                />
             </Head>
-            <main className={` ${className}`}>{children}</main>
+            <main className={className}>{children}</main>
         </>
     );
 };
