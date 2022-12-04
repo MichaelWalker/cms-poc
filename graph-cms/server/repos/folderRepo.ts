@@ -1,12 +1,32 @@
 import { randomUUID } from "crypto";
 import { Folder } from "graph-cms/shared/domainTypes";
-import { CreateFolderRequest, FindInFolderRequest, GetBreadcrumbsRequest } from "graph-cms/shared/validations";
-import { read, write } from "./neo4j-helpers";
+import {
+    CreateFolderRequest,
+    FindInFolderRequest,
+    GetBreadcrumbsRequest,
+    GetFolderById,
+} from "graph-cms/shared/validations";
+import { read, singleOrThrow, write } from "./neo4j-helpers";
 
 type Breadcrumb = {
     id: string;
     name: string;
 };
+
+export async function getById({ id }: GetFolderById): Promise<Folder> {
+    const response = await read((tx) => {
+        return tx.run(
+            `
+            MATCH (folder:Folder)
+            WHERE folder.id = $id
+            RETURN folder
+        `,
+            { id }
+        );
+    });
+
+    return singleOrThrow(response.records).get("folder").properties;
+}
 
 export async function create({ name, parentId }: CreateFolderRequest) {
     await write((tx) => {

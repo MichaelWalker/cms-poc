@@ -31,3 +31,11 @@ export async function read<T>(transactionWork: ManagedTransactionWork<T>): Promi
         await session.close();
     }
 }
+
+export function singleOrThrow<T>(results: T[]): T {
+    if (results && results[0] && results.length === 1) {
+        return results[0];
+    }
+
+    throw `expected to find exactly 1 result, but found ${results.length}`;
+}
