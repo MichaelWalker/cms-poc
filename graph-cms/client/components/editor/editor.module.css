@@ -1,0 +1,4 @@
+.gridTemplate {
+    grid-template-columns: minmax(0, 1fr) 44rem;
+    grid-template-rows: max-content max-content 1fr;
+}

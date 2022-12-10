@@ -10,7 +10,7 @@ type ActionBarProps = {
 
 export const ActionBar: FC<ActionBarProps> = ({ page }) => {
     return (
-        <div className="flex flex-row items-center bg-white px-8 py-4">
+        <div className="col-span-2 flex flex-row items-center bg-white px-8 py-4">
             <CmsLink href={`/cms/folders/${page.folderId}`}>
                 <ArrowLeftIcon className="mr-1" width="20" height="20" />
                 Back

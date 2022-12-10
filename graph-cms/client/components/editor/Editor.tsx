@@ -4,6 +4,7 @@ import { Loading } from "../loading/Loading";
 import { ActionBar } from "./action-bar/ActionBar";
 import { EditorControls } from "./editor-controls/EditorControls";
 import { Preview } from "./preview/Preview";
+import styles from "./editor.module.css";
 
 type EditorProps = {
     pageId: string;
@@ -20,12 +21,10 @@ export const Editor: FC<EditorProps> = ({ pageId }) => {
         case "success":
             const page = pageQuery.data;
             return (
-                <div className="flex h-screen flex-col">
+                <div className={`grid h-screen w-screen overflow-hidden ${styles.gridTemplate}`}>
                     <ActionBar page={page} />
-                    <div className="flex flex-grow flex-row">
-                        <Preview />
-                        <EditorControls />
-                    </div>
+                    <Preview />
+                    <EditorControls />
                 </div>
             );
     }

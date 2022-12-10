@@ -2,9 +2,12 @@ import { AllSidesIcon, DesktopIcon, LaptopIcon, MobileIcon } from "@radix-ui/rea
 import { ToggleGroup } from "graph-cms/client/components/forms/inputs/ToggleGroup";
 import { ToggleItemProps } from "graph-cms/client/components/forms/inputs/ToggleItem";
 import { FC, useState } from "react";
+import { ViewportSize } from "../preview-iframe/PreviewIFrame";
 
-type PreviewControlsProps = {};
-type ViewportSize = "mobile" | "tablet" | "desktop" | "fill";
+type PreviewControlsProps = {
+    viewportSize: ViewportSize;
+    setViewportSize: (size: ViewportSize) => void;
+};
 
 const viewportOptions: ToggleItemProps<ViewportSize>[] = [
     { value: "mobile", label: "mobile", icon: <MobileIcon /> },
@@ -13,11 +16,9 @@ const viewportOptions: ToggleItemProps<ViewportSize>[] = [
     { value: "fill", label: "fill space", icon: <AllSidesIcon /> },
 ];
 
-export const PreviewControls: FC<PreviewControlsProps> = ({}) => {
-    const [viewportSize, setViewportSize] = useState<ViewportSize>("mobile");
-
+export const PreviewControls: FC<PreviewControlsProps> = ({ viewportSize, setViewportSize }) => {
     return (
-        <div className="py-4">
+        <div className="col-start-1 col-end-2 py-4">
             <form className="flex flex-row justify-center">
                 <ToggleGroup value={viewportSize} onValueChange={setViewportSize} items={viewportOptions} />
             </form>

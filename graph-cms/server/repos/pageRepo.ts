@@ -4,7 +4,6 @@ import { CreatePageRequest, FindInFolderRequest, GetByIdRequest } from "graph-cm
 import { read, singleOrThrow, write } from "./neo4j-helpers";
 
 export async function getById({ id }: GetByIdRequest): Promise<Page> {
-    console.log("the id", id);
     const response = await read((tx) => {
         return tx.run(
             `
@@ -16,7 +15,6 @@ export async function getById({ id }: GetByIdRequest): Promise<Page> {
         );
     });
 
-    console.log("responses", response.records.length);
     return singleOrThrow(response.records).get("page").properties;
 }
 
