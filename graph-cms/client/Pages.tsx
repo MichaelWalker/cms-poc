@@ -2,10 +2,9 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import { Loading } from "./components/loading/Loading";
 import { Main } from "./components/main/Main";
-import { EditorPage } from "./pages/EditorPage";
+import { PageEditorPage } from "./pages/PageEditorPage";
 import { FolderPage } from "./pages/FolderPage";
 import { HomePage } from "./pages/HomePage";
-import { trpc } from "./trpc";
 
 export const Pages: FC = () => {
     const { query, isReady } = useRouter();
@@ -24,7 +23,7 @@ export const Pages: FC = () => {
     }
 
     if (pagePath?.length === 2 && pagePath[0] === "pages") {
-        return <EditorPage pageId={pagePath[1] as string} />;
+        return <PageEditorPage pageId={pagePath[1] as string} />;
     }
 
     return <HomePage />;

@@ -7,6 +7,7 @@ export type Page = {
     id: string;
     name: string;
     url: string;
+    folderId: string;
 };
 
 export type Template = {

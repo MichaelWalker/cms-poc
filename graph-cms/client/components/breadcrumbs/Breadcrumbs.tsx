@@ -29,9 +29,9 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ folderId }) => {
             return <Loading />;
         case "success":
             return (
-                <div>
+                <div className="flex flex-row">
                     {query.data.map(({ id, name }, index) => (
-                        <span key={id}>
+                        <span key={id} className="flex flex-row items-center">
                             <CmsLink href={getPath(id)} color="white">
                                 {name}
                             </CmsLink>

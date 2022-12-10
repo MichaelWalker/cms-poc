@@ -4,7 +4,7 @@ import {
     CreateFolderRequest,
     FindInFolderRequest,
     GetBreadcrumbsRequest,
-    GetFolderById,
+    GetByIdRequest,
 } from "graph-cms/shared/validations";
 import { read, singleOrThrow, write } from "./neo4j-helpers";
 
@@ -13,7 +13,7 @@ type Breadcrumb = {
     name: string;
 };
 
-export async function getById({ id }: GetFolderById): Promise<Folder> {
+export async function getById({ id }: GetByIdRequest): Promise<Folder> {
     const response = await read((tx) => {
         return tx.run(
             `
