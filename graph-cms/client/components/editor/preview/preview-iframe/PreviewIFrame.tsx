@@ -5,7 +5,7 @@ export type ViewportSize = "mobile" | "tablet" | "desktop" | "fill";
 
 type PreviewIFrameProps = {
     children: ReactNode;
-    viewportSize: ViewportSize;
+    size: ViewportSize;
 };
 
 function getViewportStyles(viewportSize: ViewportSize): string {
@@ -21,7 +21,7 @@ function getViewportStyles(viewportSize: ViewportSize): string {
     }
 }
 
-export const PreviewIFrame: FC<PreviewIFrameProps> = ({ children, viewportSize }) => {
+export const PreviewIFrame: FC<PreviewIFrameProps> = ({ children, size }) => {
     const [ref, setRef] = useState<HTMLIFrameElement | null>(null);
     const frameDocument = ref?.contentWindow?.document;
 
@@ -34,16 +34,14 @@ export const PreviewIFrame: FC<PreviewIFrameProps> = ({ children, viewportSize }
     }
 
     return (
-        <div className="col-start-1 col-end-2 row-start-3 row-end-4 overflow-hidden">
-            <div className="flex h-full flex-col items-center justify-center pl-8 pb-8">
-                <iframe
-                    ref={setRef}
-                    className={`rounded-3xl bg-white transition-all ${getViewportStyles(viewportSize)}`}
-                >
-                    {frameDocument ? createPortal(getParentHead(), frameDocument.documentElement) : null}
-                    {frameDocument ? createPortal(children, frameDocument.body) : null}
-                </iframe>
-            </div>
+        <div className="col-start-1 col-end-2 row-start-3 row-end-4 h-full overflow-auto pl-8 pb-8">
+            <iframe
+                ref={setRef}
+                className={`scale m-auto rounded-3xl bg-white transition-all ${getViewportStyles(size)}`}
+            >
+                {frameDocument ? createPortal(getParentHead(), frameDocument.documentElement) : null}
+                {frameDocument ? createPortal(children, frameDocument.body) : null}
+            </iframe>
         </div>
     );
 };
