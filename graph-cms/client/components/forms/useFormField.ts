@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export type FormField<T> = {
     label: string;
     value: T | undefined;
-    setValue: (value: T) => void;
+    changeValue: (value: T) => void;
     validationError: string | null;
     setValidationError: (error: string) => void;
-    clearValidationError: () => void;
+    onBlur: () => void;
+    onFocus: () => void;
 };
 
 type UseFormFieldProps<T> = {
@@ -17,17 +18,29 @@ type UseFormFieldProps<T> = {
 export function useFormField<T>({ label, initialValue }: UseFormFieldProps<T>): FormField<T> {
     const [value, setValue] = useState<T | undefined>(initialValue);
     const [validationError, setValidationError] = useState<string | null>(null);
+    const [showValidationError, setShowValidationError] = useState(false);
 
-    function clearValidationError() {
+    function changeValue(value: T) {
         setValidationError(null);
+        setShowValidationError(false);
+        setValue(value);
+    }
+
+    function onFocus() {
+        // do nothing.
+    }
+
+    function onBlur() {
+        setShowValidationError(true);
     }
 
     return {
         label,
         value,
-        setValue,
-        validationError,
+        changeValue,
+        validationError: showValidationError ? validationError : null,
         setValidationError,
-        clearValidationError,
+        onBlur,
+        onFocus,
     };
 }

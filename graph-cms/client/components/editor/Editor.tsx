@@ -24,7 +24,7 @@ export const Editor: FC<EditorProps> = ({ pageId }) => {
                 <div className={`grid h-screen w-screen overflow-hidden ${styles.gridTemplate}`}>
                     <ActionBar page={page} />
                     <Preview />
-                    <EditorControls />
+                    <EditorControls page={page} />
                 </div>
             );
     }
