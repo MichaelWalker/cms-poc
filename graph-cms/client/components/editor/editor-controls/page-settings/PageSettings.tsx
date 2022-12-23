@@ -1,11 +1,11 @@
 import { Card } from "graph-cms/client/components/card/Card";
 import { TextInput } from "graph-cms/client/components/forms/inputs/TextInput";
-import { useForm } from "graph-cms/client/components/forms/useForm";
-import { useFormField } from "graph-cms/client/components/forms/useFormField";
 import { SectionHeader } from "graph-cms/client/components/headers/SectionHeader";
+import { preventDefault } from "graph-cms/client/utils/form-utils";
 import { Page } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { z } from "zod";
+import { usePageEditorContext } from "../../PageEditorContext";
 
 type PageSettingsProps = {
     page: Page;
@@ -17,21 +17,12 @@ const pageSettingsSchema = z.object({
 });
 
 export const PageSettings: FC<PageSettingsProps> = ({ page }) => {
-    const nameField = useFormField({ label: "Name", initialValue: page.name });
-    const urlField = useFormField({ label: "URL", initialValue: page.url });
-
-    const { handleSubmit } = useForm({
-        schema: pageSettingsSchema,
-        fields: {
-            name: nameField,
-            url: urlField,
-        },
-    });
+    const { nameField, urlField } = usePageEditorContext();
 
     return (
         <Card>
             <SectionHeader>Page Settings</SectionHeader>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={preventDefault}>
                 <TextInput {...nameField} />
                 <TextInput {...urlField} />
             </form>

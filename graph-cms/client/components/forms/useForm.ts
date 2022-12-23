@@ -1,60 +1,62 @@
-import { FormEvent, useEffect } from "react";
-import { z } from "zod";
+import { useStableState } from "graph-cms/client/utils/use-stable-state";
+import { useCallback, useEffect, useMemo } from "react";
+import { z, ZodObject, ZodTypeAny } from "zod";
 import { FormField } from "./useFormField";
 
-type UseFormProps<T extends z.ZodRawShape> = {
-    // TODO: is there a way to not rely on 'any'?
-    fields: Record<keyof T, FormField<any>>;
-    schema: z.ZodObject<T>;
+type InferredZodShape<T extends {}> = {
+    [K in keyof T]: ZodTypeAny;
 };
 
-type Form<T> = {
-    handleSubmit: (event: FormEvent) => Promise<void>;
-    tryValidateAndParse: () => T | null;
+type InferredZodSchema<T extends {}> = ZodObject<InferredZodShape<T>>;
+
+type InferredFields<T extends {}> = {
+    [K in keyof T]: FormField<T[K]>;
 };
 
-export function useForm<T extends z.ZodRawShape>({ fields, schema }: UseFormProps<T>): Form<T> {
-    function formFields() {
-        return Object.values(fields);
-    }
+type UseFormProps<T extends {}> = {
+    fields: InferredFields<T>;
+    schema: InferredZodSchema<T>;
+};
 
-    function handleError(error: z.ZodError) {
-        for (const issue of error.issues) {
-            const name = issue.path[0];
+type FormState<T> = { isValid: false } | { isValid: true; data: T };
 
-            if (name) {
-                const field = fields[name];
-                field?.setValidationError(issue.message);
+export function useForm<T extends {}>({ fields, schema }: UseFormProps<T>): FormState<T> {
+    const [state, setState] = useStableState<FormState<T>>({ isValid: false });
+
+    const handleError = useCallback(
+        (error: z.ZodError) => {
+            for (const issue of error.issues) {
+                const name = issue.path[0] as keyof T | undefined;
+
+                if (name) {
+                    const field = fields[name];
+                    field?.setValidationError(issue.message);
+                }
             }
-        }
-    }
+        },
+        [fields]
+    );
 
-    function tryValidateAndParse(): T | null {
-        let data = {} as Record<string, unknown>;
-        for (const [name, field] of Object.entries(fields)) {
+    const data = useMemo((): Partial<T> => {
+        let data = {} as Partial<T>;
+
+        for (const [name, field] of Object.entries(fields) as [keyof T, FormField<T[keyof T]>][]) {
             data[name] = field.value;
         }
 
+        return data;
+    }, [fields]);
+
+    useEffect(() => {
         const result = schema.safeParse(data);
 
         if (result.success) {
-            return result.data as T;
+            setState({ isValid: true, data: result.data as T });
         } else {
             handleError(result.error);
-            return null;
+            setState({ isValid: false });
         }
-    }
+    }, [data, handleError, schema]);
 
-    useEffect(() => {
-        tryValidateAndParse();
-    }, [formFields().map((field) => field.value)]);
-
-    async function handleSubmit(event: FormEvent) {
-        event.preventDefault();
-    }
-
-    return {
-        handleSubmit,
-        tryValidateAndParse,
-    };
+    return state;
 }

@@ -12,16 +12,21 @@ export function Table<T>({ headers, items, renderItem }: TableProps<T>) {
             <table className="w-full text-left">
                 <thead>
                     <tr>
-                        {headers.map((header) => (
-                            <th className="bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider first:rounded-tl-xl last:rounded-tr-xl">
+                        {headers.map((header, index) => (
+                            <th
+                                key={index}
+                                className="bg-slate-200 py-4 pl-8 text-sm font-light uppercase tracking-wider first:rounded-tl-xl last:rounded-tr-xl"
+                            >
                                 {header}
                             </th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {items.map((item) => (
-                        <tr className="border-b border-stone-200 last:border-none">{renderItem(item)}</tr>
+                    {items.map((item, index) => (
+                        <tr key={index} className="border-b border-stone-200 last:border-none">
+                            {renderItem(item)}
+                        </tr>
                     ))}
                 </tbody>
             </table>

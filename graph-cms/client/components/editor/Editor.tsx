@@ -5,6 +5,7 @@ import { ActionBar } from "./action-bar/ActionBar";
 import { EditorControls } from "./editor-controls/EditorControls";
 import { Preview } from "./preview/Preview";
 import styles from "./editor.module.css";
+import { PageEditorContextProvider } from "./PageEditorContext";
 
 type EditorProps = {
     pageId: string;
@@ -19,13 +20,14 @@ export const Editor: FC<EditorProps> = ({ pageId }) => {
         case "error":
             return <div>Oh dear</div>;
         case "success":
-            const page = pageQuery.data;
             return (
-                <div className={`grid h-screen w-screen overflow-hidden ${styles.gridTemplate}`}>
-                    <ActionBar page={page} />
-                    <Preview />
-                    <EditorControls page={page} />
-                </div>
+                <PageEditorContextProvider page={pageQuery.data}>
+                    <div className={`grid h-screen w-screen overflow-hidden ${styles.gridTemplate}`}>
+                        <ActionBar />
+                        <Preview />
+                        <EditorControls />
+                    </div>
+                </PageEditorContextProvider>
             );
     }
 };
