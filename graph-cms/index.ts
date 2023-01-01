@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { renderPlaceholder } from "./client/components/editor/placeholder-block/PlaceholderBlock";
 import { Block } from "./shared/domainTypes";
 import { FieldDefinition } from "./shared/fields";
 import { InferredZodSchema } from "./shared/type-utils";
@@ -11,8 +10,8 @@ type Fields<T> = {
 export type BlockDefinition<T extends {}> = {
     type: string;
     schema: InferredZodSchema<T>;
-    fields: Fields<T>;
     component: FC<T>;
+    fields: Fields<T>;
 };
 
 export function block<T extends {}>(definition: BlockDefinition<T>): BlockDefinition<T> {
@@ -21,10 +20,6 @@ export function block<T extends {}>(definition: BlockDefinition<T>): BlockDefini
 
 export function createRenderer(blockDefinitions: BlockDefinition<any>[]): FC<any> {
     return (block: Block) => {
-        if (!block || !block.type) {
-            return renderPlaceholder();
-        }
-
         const definition = blockDefinitions.find((def) => def.type === block.type);
 
         if (!definition) {

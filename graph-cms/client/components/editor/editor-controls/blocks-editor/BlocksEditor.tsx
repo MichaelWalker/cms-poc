@@ -1,13 +1,17 @@
-import { Card } from "graph-cms/client/components/card/Card";
 import { SectionHeader } from "graph-cms/client/components/headers/SectionHeader";
 import { FC } from "react";
+import { usePageEditorContext } from "../../PageEditorContext";
+import { BlockEditor } from "./BlockEditor";
 
 type BlocksEditorProps = {};
 
 export const BlocksEditor: FC<BlocksEditorProps> = ({}) => {
+    const { rootBlock } = usePageEditorContext();
+
     return (
-        <Card>
+        <div className="p-8">
             <SectionHeader>Content</SectionHeader>
-        </Card>
+            <BlockEditor blockNode={rootBlock} />
+        </div>
     );
 };

@@ -4,11 +4,12 @@ import { FC, ReactNode } from "react";
 
 type CmsLinkProps = {
     href: string;
+    target?: string;
     children: ReactNode;
     color?: "black" | "white";
 };
 
-export const CmsLink: FC<CmsLinkProps> = ({ href, children, color = "black" }) => {
+export const CmsLink: FC<CmsLinkProps> = ({ href, target, children, color = "black" }) => {
     function getRingColorClass() {
         switch (color) {
             case "black":
@@ -31,6 +32,7 @@ export const CmsLink: FC<CmsLinkProps> = ({ href, children, color = "black" }) =
         <FocusRing focusRingClass={`ring-1 ${getRingColorClass()}`}>
             <Link
                 href={href}
+                target={target}
                 className={`-mx-2 rounded px-2 py-1 font-medium outline-none hover:underline ${getTextCollorClass()} flex w-fit grow-0 flex-row items-center`}
             >
                 {children}

@@ -1,8 +1,10 @@
 import { z } from "zod";
 
+// TODO - improve this
 export const blockSchema = z.object({
+    id: z.string().uuid(),
     type: z.string().trim().min(1),
-    data: z.object({}),
+    fieldRelations: z.array(z.object({})),
 });
 
 export const createFolderRequest = z.object({

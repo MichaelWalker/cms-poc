@@ -10,7 +10,7 @@ type PageEditorPageProps = {
 
 export const PageEditorPage: FC<PageEditorPageProps> = ({ pageId, blockDefinitions }) => {
     return (
-        <Main className="min-h-screen bg-stone-200">
+        <Main className="min-h-screen bg-gray-200">
             <Editor pageId={pageId} blockDefinitions={blockDefinitions} />
         </Main>
     );

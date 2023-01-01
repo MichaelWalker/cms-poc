@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { Block, BlockNode, Field } from "graph-cms/shared/domainTypes";
 
 export function calculateModifictions(existingBlock: BlockNode, modifiedBlock: BlockNode) {}
@@ -16,5 +17,13 @@ export function convertFromNode(blockNode: BlockNode): Block {
     return {
         type: blockNode.type,
         data,
+    };
+}
+
+export function rootBlockNode(): BlockNode {
+    return {
+        id: randomUUID(),
+        type: "root",
+        fieldRelations: [],
     };
 }

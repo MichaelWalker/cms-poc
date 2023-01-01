@@ -9,7 +9,7 @@ import { FormField, useFormField } from "../forms/useFormField";
 
 type PageEditorContext = {
     page: PageWithFolderId;
-    content: BlockNode | null;
+    rootBlock: BlockNode | null;
     blockDefinitions: BlockDefinition<any>[];
     nameField: FormField<string>;
     urlField: FormField<string>;
@@ -64,7 +64,7 @@ export const PageEditorContextProvider: FC<PageEditorContextProviderProps> = ({
         <pageEditorContext.Provider
             value={{
                 page,
-                content,
+                rootBlock: content,
                 blockDefinitions,
                 nameField,
                 urlField,
