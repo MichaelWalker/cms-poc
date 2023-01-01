@@ -5,8 +5,13 @@ import { Main } from "./components/main/Main";
 import { PageEditorPage } from "./pages/PageEditorPage";
 import { FolderPage } from "./pages/FolderPage";
 import { HomePage } from "./pages/HomePage";
+import { BlockDefinition } from "graph-cms";
 
-export const Pages: FC = () => {
+type PagesProps = {
+    blockDefinitions: BlockDefinition<any>[];
+};
+
+export const Pages: FC<PagesProps> = ({ blockDefinitions }) => {
     const { query, isReady } = useRouter();
     const pagePath = query.page;
 
@@ -23,7 +28,7 @@ export const Pages: FC = () => {
     }
 
     if (pagePath?.length === 2 && pagePath[0] === "pages") {
-        return <PageEditorPage pageId={pagePath[1] as string} />;
+        return <PageEditorPage pageId={pagePath[1] as string} blockDefinitions={blockDefinitions} />;
     }
 
     return <HomePage />;

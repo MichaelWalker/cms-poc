@@ -12,7 +12,7 @@ export async function getByIdWithParentFolder({ id }: GetByIdRequest): Promise<P
     const response = await read((tx) => {
         return tx.run(
             `
-            MATCH (folder:Folder)-[:HAS_PAGE]->(page:Page)
+            MATCH (folder:Folder)-[:CONTAINS_PAGE]->(page:Page)
             WHERE page.id = $id
             RETURN page, folder
         `,

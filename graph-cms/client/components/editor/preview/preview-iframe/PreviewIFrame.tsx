@@ -11,9 +11,9 @@ type PreviewIFrameProps = {
 function getViewportStyles(viewportSize: ViewportSize): string {
     switch (viewportSize) {
         case "mobile":
-            return "w-[375px] h-[812px]";
+            return "w-[375px] h-[812px] shadow-xl shadow-gray-700";
         case "tablet":
-            return "w-[768px] h-[1024px]";
+            return "w-[768px] h-[1024px] shadow-xl shadow-gray-700";
         case "desktop":
             return "w-[1920px] h-[1080px]";
         case "fill":

@@ -6,11 +6,13 @@ import {
     findInFolderRequest,
     getBreadcrumbsRequest,
     getByIdRequest,
+    getByPageIdRequest,
     updatePageRequest,
 } from "graph-cms/shared/validations";
 import * as folderRepo from "./repos/folderRepo";
 import * as pageRepo from "./repos/pageRepo";
 import * as templateRepo from "./repos/templateRepo";
+import * as contentRepo from "./repos/contentRepo";
 
 const foldersRouter = router({
     getById: procedure.input(getByIdRequest).query(({ input }) => folderRepo.getById(input)),
@@ -33,10 +35,17 @@ const templatesRouter = router({
     create: procedure.input(createTemplateRequest).mutation(({ input }) => templateRepo.create(input)),
 });
 
+const contentRouter = router({
+    getRootBlockByPageId: procedure
+        .input(getByPageIdRequest)
+        .query(({ input }) => contentRepo.getRootBlockForPage(input)),
+});
+
 export const appRouter = router({
     folders: foldersRouter,
     pages: pagesRouter,
     templates: templatesRouter,
+    content: contentRouter,
 });
 
 export type AppRouter = typeof appRouter;

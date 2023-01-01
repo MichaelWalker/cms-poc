@@ -1,4 +1,9 @@
 import { BlockNode, FieldNode, HasBlockRelation, HasFieldRelation } from "graph-cms/shared/domainTypes";
+import { GetByPageIdRequest } from "graph-cms/shared/validations";
+
+export function getRootBlockForPage({ pageId }: GetByPageIdRequest): BlockNode | null {
+    return null;
+}
 
 export function saveBlockNode(newNode: BlockNode, parentId: string) {
     const oldNode = tryGetById(newNode.id);
