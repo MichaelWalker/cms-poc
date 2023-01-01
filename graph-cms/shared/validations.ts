@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+export const blockSchema = z.object({
+    type: z.string().trim().min(1),
+    data: z.object({}),
+});
+
 export const createFolderRequest = z.object({
     name: z.string().trim().min(1),
     parentId: z.string().uuid(),

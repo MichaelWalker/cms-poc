@@ -1,13 +1,8 @@
 import { useStableState } from "graph-cms/client/utils/use-stable-state";
+import { InferredZodSchema } from "graph-cms/shared/type-utils";
 import { useCallback, useEffect, useMemo } from "react";
-import { z, ZodObject, ZodTypeAny } from "zod";
+import { ZodError } from "zod";
 import { FormField } from "./useFormField";
-
-type InferredZodShape<T extends {}> = {
-    [K in keyof T]: ZodTypeAny;
-};
-
-type InferredZodSchema<T extends {}> = ZodObject<InferredZodShape<T>>;
 
 type InferredFields<T extends {}> = {
     [K in keyof T]: FormField<T[K]>;
@@ -24,7 +19,7 @@ export function useForm<T extends {}>({ fields, schema }: UseFormProps<T>): Form
     const [state, setState] = useStableState<FormState<T>>({ isValid: false });
 
     const handleError = useCallback(
-        (error: z.ZodError) => {
+        (error: ZodError) => {
             for (const issue of error.issues) {
                 const name = issue.path[0] as keyof T | undefined;
 
