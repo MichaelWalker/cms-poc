@@ -12,7 +12,7 @@ type EditorProps = {
 };
 
 export const Editor: FC<EditorProps> = ({ pageId }) => {
-    const pageQuery = trpc.pages.getById.useQuery({ id: pageId });
+    const pageQuery = trpc.pages.getByIdWithParentFolder.useQuery({ id: pageId });
 
     switch (pageQuery.status) {
         case "loading":

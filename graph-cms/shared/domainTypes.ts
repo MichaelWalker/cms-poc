@@ -11,6 +11,8 @@ export type Page = {
     url: string;
 };
 
+export type PageWithFolderId = Page & { folderId: string };
+
 export type Template = {
     id: string;
     name: string;

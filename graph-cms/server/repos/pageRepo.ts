@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { Page } from "graph-cms/shared/domainTypes";
+import { Page, PageWithFolderId } from "graph-cms/shared/domainTypes";
 import {
     CreatePageRequest,
     FindInFolderRequest,
@@ -8,19 +8,20 @@ import {
 } from "graph-cms/shared/validations";
 import { read, singleOrThrow, write } from "./neo4j-helpers";
 
-export async function getById({ id }: GetByIdRequest): Promise<Page> {
+export async function getByIdWithParentFolder({ id }: GetByIdRequest): Promise<PageWithFolderId> {
     const response = await read((tx) => {
         return tx.run(
             `
-            MATCH (page:Page)
+            MATCH (folder:Folder)-[:HAS_PAGE]->(page:Page)
             WHERE page.id = $id
-            RETURN page
+            RETURN page, folder
         `,
             { id }
         );
     });
 
-    return singleOrThrow(response.records).get("page").properties;
+    const row = singleOrThrow(response.records);
+    return { ...row.get("page").properties, folderId: row.get("folder").properties.id };
 }
 
 export async function findInFolder({ folderId }: FindInFolderRequest): Promise<Page[]> {

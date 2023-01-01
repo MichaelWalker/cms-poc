@@ -1,5 +1,5 @@
 import { trpc } from "graph-cms/client/trpc";
-import { Page } from "graph-cms/shared/domainTypes";
+import { Page, PageWithFolderId } from "graph-cms/shared/domainTypes";
 import { updatePageRequest } from "graph-cms/shared/validations";
 import { createContext, FC, ReactNode, useCallback, useContext } from "react";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import { useForm } from "../forms/useForm";
 import { FormField, useFormField } from "../forms/useFormField";
 
 type PageEditorContext = {
-    page: Page;
+    page: PageWithFolderId;
     nameField: FormField<string>;
     urlField: FormField<string>;
     savePage: () => void;
@@ -15,7 +15,7 @@ type PageEditorContext = {
 };
 
 type PageEditorContextProviderProps = {
-    page: Page;
+    page: PageWithFolderId;
     children: ReactNode;
 };
 

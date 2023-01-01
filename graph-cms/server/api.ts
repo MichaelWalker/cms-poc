@@ -20,7 +20,9 @@ const foldersRouter = router({
 });
 
 const pagesRouter = router({
-    getById: procedure.input(getByIdRequest).query(({ input }) => pageRepo.getById(input)),
+    getByIdWithParentFolder: procedure
+        .input(getByIdRequest)
+        .query(({ input }) => pageRepo.getByIdWithParentFolder(input)),
     findInFolder: procedure.input(findInFolderRequest).query(({ input }) => pageRepo.findInFolder(input)),
     create: procedure.input(createPageRequest).mutation(({ input }) => pageRepo.create(input)),
     update: procedure.input(updatePageRequest).mutation(({ input }) => pageRepo.update(input)),
