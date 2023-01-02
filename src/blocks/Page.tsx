@@ -13,16 +13,18 @@ const pageSchema = z.object({
 
 type PageProps = z.infer<typeof pageSchema>;
 
-const Page: FC<PageProps> = ({ header, main, footer }) => {
+const Page: FC<PageProps> = (props) => {
+    const { header, main, footer } = props;
+
     return (
-        <div>
-            <header>
+        <div className="flex h-screen flex-col">
+            <header className="flex-grow-0">
                 <BlockRenderer {...header} />
             </header>
-            <main>
+            <main className="flex-grow">
                 <BlockRenderer {...main} />
             </main>
-            <footer>
+            <footer className="flex-grow-0">
                 <BlockRenderer {...footer} />
             </footer>
         </div>

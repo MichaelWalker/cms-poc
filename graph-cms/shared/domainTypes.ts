@@ -48,6 +48,5 @@ export type HasFieldRelation = {
 };
 
 export type HasBlockRelation = {
-    id: string;
     block: BlockNode;
 };

@@ -11,7 +11,7 @@ export const BlocksEditor: FC<BlocksEditorProps> = ({}) => {
     return (
         <div className="p-8">
             <SectionHeader>Content</SectionHeader>
-            <BlockEditor blockNode={rootBlock} />
+            <BlockEditor label="Root Block" blockNode={rootBlock} />
         </div>
     );
 };
