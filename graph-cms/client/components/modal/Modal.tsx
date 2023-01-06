@@ -16,7 +16,7 @@ export const Modal: FC<ModalProps> = ({ open, setOpen, trigger, title, children 
                 <div>{trigger}</div>
             </Dialog.Trigger>
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed top-0 bottom-0 right-0 left-0 bg-stone-200/70 backdrop-blur" />
+                <Dialog.Overlay className="fixed top-0 bottom-0 right-0 left-0 bg-gray-200/70 backdrop-blur" />
                 <Dialog.Content className="fixed top-1/2 left-1/2 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-12 font-['Poppins'] shadow">
                     <Dialog.Title className="mb-8 text-3xl text-black">{title}</Dialog.Title>
                     {children}

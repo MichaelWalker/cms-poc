@@ -2,11 +2,11 @@ import { trpc } from "graph-cms/client/trpc";
 import { FC } from "react";
 import { Loading } from "../loading/Loading";
 import { ActionBar } from "./action-bar/ActionBar";
-import { EditorControls } from "./editor-controls/EditorControls";
 import { Preview } from "./preview/Preview";
 import styles from "./editor.module.css";
 import { PageEditorContextProvider } from "./PageEditorContext";
 import { BlockDefinition } from "graph-cms";
+import { ContentEditor } from "./content-editor/ContentEditor";
 
 type EditorProps = {
     pageId: string;
@@ -34,7 +34,7 @@ export const Editor: FC<EditorProps> = ({ pageId, blockDefinitions }) => {
             <div className={`grid h-screen w-screen overflow-hidden ${styles.gridTemplate}`}>
                 <ActionBar />
                 <Preview />
-                <EditorControls />
+                <ContentEditor />
             </div>
         </PageEditorContextProvider>
     );

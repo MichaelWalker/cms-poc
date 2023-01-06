@@ -2,9 +2,9 @@ import { trpc } from "graph-cms/client/trpc";
 import Link from "next/link";
 import { FC } from "react";
 import { CreateFolderModal } from "../create-folder-modal/CreateFolderModal";
-import { SectionHeader } from "../headers/SectionHeader";
 import { KeyboardFocusable } from "../keyboard-focusable/KeyboardFocusable";
 import { Loadable } from "../loadable/Loadable";
+import { SectionHeader } from "../typography/SectionHeader";
 
 type FolderListProps = {
     parentFolderId: string;

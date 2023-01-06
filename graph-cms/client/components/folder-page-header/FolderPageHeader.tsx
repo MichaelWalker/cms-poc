@@ -1,7 +1,7 @@
 import { trpc } from "graph-cms/client/trpc";
 import { FC } from "react";
 import { Breadcrumbs } from "../breadcrumbs/Breadcrumbs";
-import { PageTitle } from "../headers/PageTitle";
+import { PageTitle } from "../typography/PageTitle";
 import { Loading } from "../loading/Loading";
 
 type FolderPageHeaderProps = {

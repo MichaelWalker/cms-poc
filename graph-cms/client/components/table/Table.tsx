@@ -24,7 +24,7 @@ export function Table<T>({ headers, items, renderItem }: TableProps<T>) {
                 </thead>
                 <tbody>
                     {items.map((item, index) => (
-                        <tr key={index} className="border-b border-stone-200 last:border-none">
+                        <tr key={index} className="border-b border-gray-200 last:border-none">
                             {renderItem(item)}
                         </tr>
                     ))}

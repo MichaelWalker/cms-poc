@@ -2,11 +2,7 @@ import { BlockNode, FieldNode, HasBlockRelation, HasFieldRelation } from "graph-
 import { GetByPageIdRequest } from "graph-cms/shared/validations";
 
 export function getRootBlockForPage({ pageId }: GetByPageIdRequest): BlockNode | null {
-    return {
-        id: "1",
-        type: "page",
-        fieldRelations: [],
-    };
+    return null;
 }
 
 export function saveBlockNode(newNode: BlockNode, parentId: string) {

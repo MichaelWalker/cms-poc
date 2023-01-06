@@ -1,7 +1,7 @@
 import { trpc } from "graph-cms/client/trpc";
 import { FC } from "react";
 import { CreateTemplateModal } from "../create-template-modal/CreateTemplateModal";
-import { SectionHeader } from "../headers/SectionHeader";
+import { SectionHeader } from "../typography/SectionHeader";
 import { Loadable } from "../loadable/Loadable";
 import { Table } from "../table/Table";
 import { TableCell } from "../table/TableCell";

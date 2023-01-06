@@ -1,3 +1,4 @@
+import { KeyboardFocusable } from "graph-cms/client/components/keyboard-focusable/KeyboardFocusable";
 import { FC, useState, ReactNode } from "react";
 import { createPortal } from "react-dom";
 
