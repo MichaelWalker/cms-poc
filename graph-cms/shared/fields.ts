@@ -1,7 +1,7 @@
-import { placeholderBlockNode } from "graph-cms/client/components/editor/placeholder-block/PlaceholderBlock";
-import { BlockNode } from "./domainTypes";
+import { FieldNodeValue, HasBlockRelation } from "./domainTypes";
+import { v4 as uuid } from "uuid";
 
-export type FieldDefinition<T> = {
+export type FieldDefinition<T extends FieldNodeValue> = {
     type: "text" | "image" | "link" | "block" | "number" | "boolean";
     label: string;
     description?: string;
@@ -9,7 +9,7 @@ export type FieldDefinition<T> = {
     fallbackValue: T;
 };
 
-type FieldDefinitionOptions<T> = Omit<FieldDefinition<T>, "type" | "fallbackValue"> &
+type FieldDefinitionOptions<T extends FieldNodeValue> = Omit<FieldDefinition<T>, "type" | "fallbackValue"> &
     Partial<Pick<FieldDefinition<T>, "fallbackValue">>;
 
 export function textField(options: FieldDefinitionOptions<string>): FieldDefinition<string> {
@@ -28,10 +28,16 @@ export function imageField(options: FieldDefinitionOptions<string>): FieldDefini
     };
 }
 
-export function blockField(options: FieldDefinitionOptions<BlockNode>): FieldDefinition<BlockNode> {
+export function blockField(options: FieldDefinitionOptions<HasBlockRelation>): FieldDefinition<HasBlockRelation> {
     return {
         type: "block" as const,
-        fallbackValue: placeholderBlockNode(),
+        fallbackValue: {
+            block: {
+                id: uuid(),
+                type: "placeholder",
+                fieldRelations: [],
+            },
+        },
         ...options,
     };
 }

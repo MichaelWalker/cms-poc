@@ -1,20 +1,58 @@
 import { KeyboardFocusable } from "graph-cms/client/components/keyboard-focusable/KeyboardFocusable";
-import { BlockNode } from "graph-cms/shared/domainTypes";
+import { getBlockFromBlockField } from "graph-cms/server/block-utils";
+import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
-import { Breadcrumb } from "../ContentEditor";
 
 type BlockListItemProps = {
     label: string;
     block: BlockNode | null;
-    goToBlockDetails: (blockId: string, breadcrumbs: Breadcrumb[]) => void;
+    field: FieldNode | null;
+    goToCreateBlock: (label: string, fieldNode: FieldNode | null) => void;
+    goToBlockDetails: (label: string, blockNode: BlockNode, fieldNode: FieldNode | null) => void;
 };
 
-export const BlockListItem: FC<BlockListItemProps> = ({ label, block, goToBlockDetails }) => {
+export const BlockListItem: FC<BlockListItemProps> = ({ label, block, field, goToCreateBlock, goToBlockDetails }) => {
+    if (block && block.type !== "placeholder") {
+        const childBlockRelations = block.fieldRelations.filter(
+            (fieldRelation) => fieldRelation.field.type === "block"
+        );
+
+        return (
+            <>
+                <KeyboardFocusable>
+                    <button
+                        onClick={() => goToBlockDetails(label, block, field)}
+                        className="mb-2 w-full rounded bg-gray-200 px-8 py-2 text-left transition-colors hover:bg-fuchsia-200"
+                    >
+                        <span className="block text-xs font-medium tracking-wider">{label}</span>
+                        <span>{block.type}</span>
+                    </button>
+                </KeyboardFocusable>
+                <ol className="pl-8">
+                    {childBlockRelations.map((child) => (
+                        <li key={child.key}>
+                            <BlockListItem
+                                label={child.key}
+                                block={getBlockFromBlockField(child.field)}
+                                field={child.field}
+                                goToCreateBlock={goToCreateBlock}
+                                goToBlockDetails={goToBlockDetails}
+                            />
+                        </li>
+                    ))}
+                </ol>
+            </>
+        );
+    }
+
     return (
         <KeyboardFocusable>
-            <button className="w-full rounded bg-gray-200 px-8 py-2 text-left transition-colors hover:bg-fuchsia-200">
+            <button
+                onClick={() => goToCreateBlock(label, field)}
+                className="mb-2 w-full rounded bg-gray-200 px-8 py-2 text-left transition-colors hover:bg-fuchsia-200"
+            >
                 <span className="block text-xs font-medium tracking-wider">{label}</span>
-                <span>Empty</span>
+                <span>Empty - click to add</span>
             </button>
         </KeyboardFocusable>
     );

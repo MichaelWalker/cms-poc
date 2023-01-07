@@ -1,5 +1,3 @@
-import { BlockList } from "net";
-
 export type Folder = {
     id: string;
     name: string;
@@ -35,6 +33,7 @@ export type FieldNode = { id: string } & (
     | { type: "boolean"; value: boolean }
     | { type: "block"; value: HasBlockRelation }
 );
+export type FieldNodeValue = FieldNode["value"];
 
 export type BlockNode = {
     id: string;

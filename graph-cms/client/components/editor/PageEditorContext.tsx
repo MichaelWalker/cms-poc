@@ -1,8 +1,8 @@
 import { BlockDefinition } from "graph-cms";
 import { trpc } from "graph-cms/client/trpc";
-import { BlockNode, PageWithFolderId } from "graph-cms/shared/domainTypes";
+import { BlockNode, FieldNode, PageWithFolderId } from "graph-cms/shared/domainTypes";
 import { updatePageRequest } from "graph-cms/shared/validations";
-import { createContext, FC, ReactNode, useCallback, useContext, useMemo } from "react";
+import { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
 import { z } from "zod";
 import { useForm } from "../forms/useForm";
 import { FormField, useFormField } from "../forms/useFormField";
@@ -13,8 +13,11 @@ type PageEditorContext = {
     blockDefinitions: BlockDefinition<any>[];
     nameField: FormField<string>;
     urlField: FormField<string>;
-    savePage: () => void;
     canSavePage: boolean;
+    savePage: () => void;
+    createBlock: (blockNode: BlockNode, fieldNode: FieldNode | null) => void;
+    updateBlock: (blockNode: BlockNode) => void;
+    deleteBlock: (blockNodeId: string) => void;
 };
 
 type PageEditorContextProviderProps = {
@@ -34,6 +37,8 @@ export const PageEditorContextProvider: FC<PageEditorContextProviderProps> = ({
     blockDefinitions,
     children,
 }) => {
+    const [updatedContent, setUpdatedContent] = useState(content);
+
     const pageMutation = trpc.pages.update.useMutation();
 
     const nameField = useFormField({ label: "Name", initialValue: page.name });
@@ -60,16 +65,29 @@ export const PageEditorContextProvider: FC<PageEditorContextProviderProps> = ({
         });
     }, [page, settingsForm]);
 
+    const createBlock = useCallback((blockNode: BlockNode, fieldNode: FieldNode | null) => {
+        if (!fieldNode) {
+            setUpdatedContent(blockNode);
+        }
+    }, []);
+
+    const updateBlock = useCallback((blockNode: BlockNode) => {}, []);
+
+    const deleteBlock = useCallback((blockNodeId: string) => {}, []);
+
     return (
         <pageEditorContext.Provider
             value={{
                 page,
-                rootBlock: content,
+                rootBlock: updatedContent,
                 blockDefinitions,
                 nameField,
                 urlField,
-                savePage,
                 canSavePage: settingsForm.isValid,
+                savePage,
+                createBlock,
+                updateBlock,
+                deleteBlock,
             }}
         >
             {children}

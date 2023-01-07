@@ -1,7 +1,6 @@
-import { shallowEqualObjects } from "@tanstack/query-core/build/lib/utils";
-import { randomUUID } from "crypto";
-import { block, BlockDefinition } from "graph-cms";
-import { Block, BlockNode, Field, HasBlockRelation } from "graph-cms/shared/domainTypes";
+import { BlockDefinition } from "graph-cms";
+import { Block, BlockNode, Field, FieldNode, HasFieldRelation } from "graph-cms/shared/domainTypes";
+import { v4 as uuid } from "uuid";
 
 // TODO can I improve these types?
 export function getBlockDefinition(blockDefinitions: BlockDefinition<any>[], blockType: string): BlockDefinition<any> {
@@ -14,7 +13,7 @@ export function getBlockDefinition(blockDefinitions: BlockDefinition<any>[], blo
     return definition;
 }
 
-export function convertFromNode(blockDefinitions: BlockDefinition<any>[], blockNode: BlockNode): Block {
+export function convertFromNode(blockDefinitions: BlockDefinition<any>[], blockNode: BlockNode | null): Block {
     if (!blockNode || !blockNode.type || blockNode.type === "placeholder") {
         return {
             type: "placeholder",
@@ -46,6 +45,31 @@ export function convertFromNode(blockDefinitions: BlockDefinition<any>[], blockN
     return {
         type: blockNode.type,
         data,
+    };
+}
+
+export function getBlockFromBlockField(field: FieldNode): BlockNode {
+    if (field.type !== "block") {
+        throw new Error("Field is not a block field");
+    }
+
+    return field.value.block;
+}
+
+export function createInitialBlockNodeFromDefinition(blockDefinition: BlockDefinition<any>): BlockNode {
+    return {
+        id: uuid(),
+        type: blockDefinition.type,
+        fieldRelations: Object.entries(blockDefinition.fields).map(([key, fieldDefinition]) => {
+            return {
+                key,
+                field: {
+                    id: uuid(),
+                    type: fieldDefinition.type,
+                    value: fieldDefinition.fallbackValue,
+                },
+            } as HasFieldRelation;
+        }),
     };
 }
 

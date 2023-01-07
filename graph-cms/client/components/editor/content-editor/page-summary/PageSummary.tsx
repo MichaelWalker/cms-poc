@@ -1,17 +1,18 @@
 import { ExternalLinkIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "graph-cms/client/components/buttons/LinkButton";
 import { CmsLink } from "graph-cms/client/components/typography/CmsLink";
+import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { usePageEditorContext } from "../../PageEditorContext";
-import { Breadcrumb } from "../ContentEditor";
 import { BlockListItem } from "./BlockListItem";
 
 type PageSummaryProps = {
+    goToCreateBlock: (label: string, field: FieldNode | null) => void;
     goToPageDetails: () => void;
-    goToBlockDetails: (blockId: string, breadcrumbs: Breadcrumb[]) => void;
+    goToBlockDetails: (label: string, blockNode: BlockNode, fieldNode: FieldNode | null) => void;
 };
 
-export const PageSummary: FC<PageSummaryProps> = ({ goToBlockDetails, goToPageDetails }) => {
+export const PageSummary: FC<PageSummaryProps> = ({ goToCreateBlock, goToBlockDetails, goToPageDetails }) => {
     const { page, rootBlock } = usePageEditorContext();
 
     return (
@@ -27,7 +28,13 @@ export const PageSummary: FC<PageSummaryProps> = ({ goToBlockDetails, goToPageDe
             </div>
             <div className="p-8">
                 <h3 className="mb-4 text-2xl">Blocks</h3>
-                <BlockListItem label="Root Block" block={rootBlock} goToBlockDetails={goToBlockDetails} />
+                <BlockListItem
+                    label="Root Block"
+                    block={rootBlock}
+                    field={null}
+                    goToCreateBlock={goToCreateBlock}
+                    goToBlockDetails={goToBlockDetails}
+                />
             </div>
         </>
     );

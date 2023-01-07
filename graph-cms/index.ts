@@ -1,8 +1,9 @@
 import { FC } from "react";
+import { FieldNodeValue } from "./shared/domainTypes";
 import { FieldDefinition } from "./shared/fields";
 import { InferredZodSchema } from "./shared/type-utils";
 
-type Fields<T> = {
+type Fields<T extends Record<string, FieldNodeValue>> = {
     [K in keyof T]: FieldDefinition<T[K]>;
 };
 
