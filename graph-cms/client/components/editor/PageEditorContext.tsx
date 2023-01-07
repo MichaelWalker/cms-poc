@@ -1,5 +1,6 @@
 import { BlockDefinition } from "graph-cms";
 import { trpc } from "graph-cms/client/trpc";
+import { addBlockNodeToTree } from "graph-cms/shared/block-utils";
 import { BlockNode, FieldNode, PageWithFolderId } from "graph-cms/shared/domainTypes";
 import { updatePageRequest } from "graph-cms/shared/validations";
 import { createContext, FC, ReactNode, useCallback, useContext, useState } from "react";
@@ -67,8 +68,12 @@ export const PageEditorContextProvider: FC<PageEditorContextProviderProps> = ({
 
     const createBlock = useCallback((blockNode: BlockNode, fieldNode: FieldNode | null) => {
         if (!fieldNode) {
+            // If there is no field node, we are creating a root block
             setUpdatedContent(blockNode);
+            return;
         }
+
+        setUpdatedContent((previousContent) => addBlockNodeToTree(previousContent!!, blockNode, fieldNode));
     }, []);
 
     const updateBlock = useCallback((blockNode: BlockNode) => {}, []);

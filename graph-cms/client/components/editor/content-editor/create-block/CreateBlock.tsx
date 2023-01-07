@@ -6,7 +6,7 @@ import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { usePageEditorContext } from "../../PageEditorContext";
 import { v4 as uuid } from "uuid";
-import { createInitialBlockNodeFromDefinition } from "graph-cms/server/block-utils";
+import { createInitialBlockNodeFromDefinition } from "graph-cms/shared/block-utils";
 
 type CreateBlockProps = {
     label: string;

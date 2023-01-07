@@ -1,5 +1,5 @@
 import { KeyboardFocusable } from "graph-cms/client/components/keyboard-focusable/KeyboardFocusable";
-import { getBlockFromBlockField } from "graph-cms/server/block-utils";
+import { getBlockFromBlockField } from "graph-cms/shared/block-utils";
 import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 

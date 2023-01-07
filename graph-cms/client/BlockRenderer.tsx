@@ -1,5 +1,5 @@
 import { BlockDefinition } from "graph-cms";
-import { convertFromNode, getBlockDefinition } from "graph-cms/server/block-utils";
+import { convertFromNode, getBlockDefinition } from "graph-cms/shared/block-utils";
 import { Block, BlockNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { PlaceholderBlock } from "./components/editor/placeholder-block/PlaceholderBlock";

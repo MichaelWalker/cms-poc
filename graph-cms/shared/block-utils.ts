@@ -73,6 +73,57 @@ export function createInitialBlockNodeFromDefinition(blockDefinition: BlockDefin
     };
 }
 
+export function addBlockNodeToTree(rootNode: BlockNode, newNode: BlockNode, parentField: FieldNode): BlockNode {
+    const field = findFieldInTree(rootNode, parentField.id);
+
+    if (!field) {
+        throw new Error(`Could not find field '${parentField.id}' in tree`);
+    }
+
+    return {
+        ...rootNode,
+        fieldRelations: rootNode.fieldRelations.map((relation) => updateFieldRelation(relation, field.id, newNode)),
+    };
+}
+
+function updateFieldRelation(relation: HasFieldRelation, fieldNodeId: string, newBlock: BlockNode): HasFieldRelation {
+    if (relation.field.id !== fieldNodeId) {
+        return relation;
+    }
+
+    if (relation.field.type !== "block") {
+        throw new Error(`Cannot add block to non-block field - found field of type '${relation.field.type}'`);
+    }
+
+    return {
+        ...relation,
+        field: {
+            ...relation.field,
+            value: {
+                block: newBlock,
+            },
+        },
+    };
+}
+
+export function findFieldInTree(rootNode: BlockNode, fieldId: string): FieldNode | null {
+    for (const relation of rootNode.fieldRelations) {
+        if (relation.field.id === fieldId) {
+            return relation.field;
+        }
+
+        if (relation.field.type === "block") {
+            const result = findFieldInTree(relation.field.value.block, fieldId);
+
+            if (result) {
+                return result;
+            }
+        }
+    }
+
+    return null;
+}
+
 function isBlockNode(value: any): value is BlockNode {
     return value && value.id && value.type && value.fieldRelations;
 }
