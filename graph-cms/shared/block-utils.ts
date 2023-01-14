@@ -1,6 +1,7 @@
 import { BlockDefinition } from "graph-cms";
-import { Block, BlockNode, Field, FieldNode, HasFieldRelation } from "graph-cms/shared/domainTypes";
+import { Block, BlockNode, Field, FieldNode, FieldNodeValue, HasFieldRelation } from "graph-cms/shared/domainTypes";
 import { v4 as uuid } from "uuid";
+import { FieldDefinition } from "./fields";
 
 // TODO can I improve these types?
 export function getBlockDefinition(blockDefinitions: BlockDefinition<any>[], blockType: string): BlockDefinition<any> {

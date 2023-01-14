@@ -1,18 +1,15 @@
 import { ExternalLinkIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { IconButton } from "graph-cms/client/components/buttons/LinkButton";
 import { CmsLink } from "graph-cms/client/components/typography/CmsLink";
-import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { usePageEditorContext } from "../../PageEditorContext";
+import { useContentEditorContext } from "../ContentEditor";
 import { BlockListItem } from "./BlockListItem";
 
-type PageSummaryProps = {
-    goToCreateBlock: (label: string, field: FieldNode | null) => void;
-    goToPageDetails: () => void;
-    goToBlockDetails: (label: string, blockNode: BlockNode, fieldNode: FieldNode | null) => void;
-};
+type PageSummaryProps = {};
 
-export const PageSummary: FC<PageSummaryProps> = ({ goToCreateBlock, goToBlockDetails, goToPageDetails }) => {
+export const PageSummary: FC<PageSummaryProps> = () => {
+    const { goToPageDetails, goToCreateBlock, goToBlockDetails } = useContentEditorContext();
     const { page, rootBlock } = usePageEditorContext();
 
     return (

@@ -2,20 +2,19 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { BlockDefinition } from "graph-cms";
 import { IconButton } from "graph-cms/client/components/buttons/LinkButton";
 import { KeyboardFocusable } from "graph-cms/client/components/keyboard-focusable/KeyboardFocusable";
-import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
+import { FieldNode } from "graph-cms/shared/domainTypes";
 import { FC } from "react";
 import { usePageEditorContext } from "../../PageEditorContext";
-import { v4 as uuid } from "uuid";
 import { createInitialBlockNodeFromDefinition } from "graph-cms/shared/block-utils";
+import { useContentEditorContext } from "../ContentEditor";
 
 type CreateBlockProps = {
     label: string;
     field: FieldNode | null;
-    goToPageSummary: () => void;
-    goToBlockDetails: (label: string, block: BlockNode, field: FieldNode | null) => void;
 };
 
-export const CreateBlock: FC<CreateBlockProps> = ({ label, field, goToPageSummary, goToBlockDetails }) => {
+export const CreateBlock: FC<CreateBlockProps> = ({ label, field }) => {
+    const { goToBlockDetails, goToPageSummary } = useContentEditorContext();
     const { createBlock, blockDefinitions } = usePageEditorContext();
 
     function handleBlockSelected(blockDefinition: BlockDefinition<any>) {

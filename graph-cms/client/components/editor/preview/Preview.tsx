@@ -1,4 +1,4 @@
-import { createBlockNodeRenderer } from "graph-cms/client/blockRenderer";
+import { createBlockNodeRenderer } from "graph-cms/client/BlockRenderer";
 import { FC, useMemo, useState } from "react";
 import { usePageEditorContext } from "../PageEditorContext";
 import { PreviewControls } from "./preview-controls/PreviewControls";
