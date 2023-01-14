@@ -1,9 +1,10 @@
-import { createContext, FC, ReactElement, useContext, useState } from "react";
+import { createContext, FC, ReactElement, useContext, useEffect, useRef, useState } from "react";
 import { BlockDetails } from "./block-details/BlockDetails";
 import { PageSummary } from "./page-summary/PageSummary";
 import { PageDetails } from "./page-details/PageDetails";
 import { BlockNode, FieldNode } from "graph-cms/shared/domainTypes";
 import { CreateBlock } from "./create-block/CreateBlock";
+import autoAnimate from "@formkit/auto-animate";
 
 export type Breadcrumb = { id: string; name: string };
 type ContentEditorProps = {};
@@ -25,6 +26,7 @@ const contentEditorContext = createContext<ContentEditorContext>(undefined as ne
 
 export const ContentEditor: FC<ContentEditorProps> = () => {
     const [state, setState] = useState<EditorState>({ slide: "page-summary" });
+    const animationParent = useRef<HTMLDivElement>(null);
 
     function goToPageSummary() {
         setState({ slide: "page-summary" });
@@ -41,6 +43,10 @@ export const ContentEditor: FC<ContentEditorProps> = () => {
     function goToCreateBlock(label: string, fieldNode: FieldNode | null) {
         setState({ slide: "create-block", label, fieldNode });
     }
+
+    useEffect(() => {
+        animationParent.current && autoAnimate(animationParent.current);
+    }, [animationParent]);
 
     function getSlide(): ReactElement {
         switch (state.slide) {
@@ -66,7 +72,9 @@ export const ContentEditor: FC<ContentEditorProps> = () => {
                     goToCreateBlock,
                 }}
             >
-                <div className="overflow-hidden rounded-xl bg-white">{getSlide()}</div>
+                <div ref={animationParent} className="overflow-hidden rounded-xl bg-white">
+                    {getSlide()}
+                </div>
             </contentEditorContext.Provider>
         </div>
     );
