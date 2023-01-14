@@ -53,7 +53,7 @@ export const ContentEditor: FC<ContentEditorProps> = () => {
             case "page-details":
                 return <PageDetails />;
             case "block-details":
-                return <BlockDetails label={state.label} block={state.blockNode} field={state.fieldNode} />;
+                return <BlockDetails label={state.label} block={state.blockNode} />;
             case "create-block":
                 return <CreateBlock label={state.label} field={state.fieldNode} />;
             case "page-summary":
